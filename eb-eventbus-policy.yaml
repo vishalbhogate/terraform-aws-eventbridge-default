@@ -1,0 +1,31 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Evenet Bus stack'
+
+Parameters:
+  ConfigurationEBNameParam:
+    Type: String
+  OrganizationIdParam:
+    Type: String
+  
+Resources:
+  EventBus:
+    Type: AWS::Events::EventBus
+    Properties: 
+      Name:
+        !Ref ConfigurationEBNameParam
+  
+  EventBusPolicy: 
+    Type: AWS::Events::EventBusPolicy
+    Properties:
+      EventBusName: !Ref ConfigurationEBNameParam
+      Action: "events:PutEvents"
+      Principal: "*"
+      StatementId: "OrgAllowPut"
+      Condition: 
+          Type: "StringEquals"
+          Key: "aws:PrincipalOrgID"
+          Value:
+            !Ref OrganizationIdParam
+
+    

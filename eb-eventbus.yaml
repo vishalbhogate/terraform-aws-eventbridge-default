@@ -1,0 +1,14 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Evenet Bus stack'
+
+Parameters:
+  ConfigurationEBNameParam:
+    Type: String
+  
+Resources:
+  EventBus:
+    Type: AWS::Events::EventBus
+    Properties: 
+      Name:
+        !Ref ConfigurationEBNameParam
