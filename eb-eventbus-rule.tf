@@ -2,7 +2,7 @@
 resource aws_cloudformation_stack eventbus_rule {
   count      = length(var.eventbus_rules)
   depends_on = [aws_cloudformation_stack.eventbus]
-  name       = "terraform-eventbus-rules-${var.org_name}"
+  name       = "terraform-eventbus-rules-${var.eventbus_rules[count.index]}"
   parameters = {
     ConfigurationEBNameParam     = "${var.org_name}-event-bus"
     ConfigurationEBRuleNameParam = "eventbus-rule-${var.eventbus_rules[count.index]}"
