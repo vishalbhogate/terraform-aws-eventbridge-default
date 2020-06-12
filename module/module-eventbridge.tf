@@ -5,7 +5,7 @@ provider "aws" {
 module "sns_email" {
   source = "git::https://github.com/vishal7489/terraform-aws-sns-email-default.git?ref=1.0.3"
 
-  email_addresses = ["vishal.bhogate@brighte.com.au", "swapnil.jain@brighte.com.au"]
+  email_addresses = ["vishal.bhogate@brighte.com.au"]
   display_name    = "ecr-scan-image"
   stack_name      = "sns-stack"
 }

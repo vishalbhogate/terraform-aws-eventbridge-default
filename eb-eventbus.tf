@@ -1,5 +1,6 @@
 resource aws_cloudformation_stack eventbus {
-  name = "terraform-eventbus-${var.org_name}"
+  count = var.required_custom_bus ? 1 : 0
+  name  = "terraform-eventbus-${var.org_name}"
   parameters = {
     ConfigurationEBNameParam = "${var.org_name}-event-bus"
   }

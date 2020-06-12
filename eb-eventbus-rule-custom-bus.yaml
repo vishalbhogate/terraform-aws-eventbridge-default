@@ -3,6 +3,8 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Evenet Bus Rule stack'
 
 Parameters:
+  ConfigurationEBNameParam:
+    Type: String
   ConfigurationEBRuleNameParam:
     Type: String
   DescriptionParam:
@@ -23,6 +25,7 @@ Resources:
     Type: "AWS::Events::Rule"
     Properties:
       Description: !Ref DescriptionParam
+      EventBusName: !Ref ConfigurationEBNameParam
       EventPattern:
         source:
           - !Ref EventPatternSource
