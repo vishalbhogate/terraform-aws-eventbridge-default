@@ -4,13 +4,12 @@ variable "org_name" {
 
 variable "required_custom_bus" {
   default     = false
-  description = "true|false create custom bus"
+  description = "true|false to create custom eventbus with access to only owner account"
 }
 
-#Policy for custom bus
 variable "enable_org_access" {
   default     = false
-  description = "true|false eventbus access to organization"
+  description = "true|false to create custom eventbus with access to only organization"
 }
 
 variable "org_id" {
