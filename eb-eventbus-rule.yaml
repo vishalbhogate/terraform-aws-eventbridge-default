@@ -25,7 +25,7 @@ Resources:
     Type: "AWS::Events::Rule"
     Properties:
       Description: !Ref DescriptionParam
-      EventBusName: !Ref ConfigurationEBNameParam
+      #EventBusName: !Ref ConfigurationEBNameParam
       EventPattern:
         source:
           - !Ref EventPatternSource
