@@ -7,7 +7,7 @@ module "sns_email" {
 
   email_addresses = ["vishal.bhogate@brighte.com.au"]
   display_name    = "ecr-scan-image"
-  stack_name      = "sns-stack"
+  stack_name      = "terraform-sns-stack"
 }
 
 
@@ -29,7 +29,7 @@ module "eventbridge" {
   }
 
   eventbus_rule_state = "ENABLED"
-  enable_org_access   = false #On false, event bus will be accessible only in Account
-
-  #org_id = <organization_id>   #if enable_org_access is true, org_id should be passed
+  enable_org_access   = false          #On false, event bus will be accessible only in Account
+  required_custom_bus = false          #On true, custom bus will get created for rules
+  org_id              = "o-tta0g0xag0" #if enable_org_access is true, org_id should be passed
 }
