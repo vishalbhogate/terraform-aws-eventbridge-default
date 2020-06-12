@@ -2,6 +2,12 @@ variable "org_name" {
   description = "Name for this organization"
 }
 
+variable "required_custom_bus" {
+  default     = false
+  description = "true|false create custom bus"
+}
+
+#Policy for custom bus
 variable "enable_org_access" {
   default     = false
   description = "true|false eventbus access to organization"
