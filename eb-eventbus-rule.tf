@@ -35,8 +35,8 @@ resource aws_cloudformation_stack eventbus_rule_custom_org {
 
 
 resource aws_cloudformation_stack eventbus_rule {
-  count      = var.required_custom_bus ? 0 : var.enable_org_access ? 0 : length(var.eventbus_rules)
-  name       = "terraform-eventbus-rules-${var.eventbus_rules[count.index]}"
+  count = var.required_custom_bus ? 0 : var.enable_org_access ? 0 : length(var.eventbus_rules)
+  name  = "terraform-eventbus-rules-${var.eventbus_rules[count.index]}"
   parameters = {
     ConfigurationEBRuleNameParam = "eventbus-rule-${var.eventbus_rules[count.index]}"
     DescriptionParam             = lookup(var.eventbus_event_pattern[var.eventbus_rules[count.index]], "description")
