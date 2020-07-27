@@ -5,9 +5,9 @@ provider "aws" {
 module "eventbridge" {
   source = "../"
 
-  org_name = "brighte"
-
-  eventbus_rules = ["created-notification", "added-notification", "submitted__notification_joint", "submitted__notification_vendor"]
+  org_name        = "test"
+  custom_eb_exist = true
+  eventbus_rules  = ["created-notification", "added-notification", "submitted-notification-joint", "submitted-notification-vendor"]
   eventbus_event_pattern = {
     created-notification = {
       rulename    = "finance.application.created__notification.terms.bp.primary"
@@ -23,19 +23,19 @@ module "eventbridge" {
       id          = "ms-communication-staging.fifo"
       file        = file("eb-rule/added-notification.yaml")
     }
-    submitted__notification_joint = {
+    submitted-notification-joint = {
       rulename    = "finance.application.submitted__notification.joint.applicant"
       description = "Joint Applicant Request Email"
       target      = "arn:aws:sqs:ap-south-1:310124165412:ms-communication-staging.fifo"
       id          = "ms-communication-staging.fifo"
-      file        = file("eb-rule/submitted__notification_joint.yaml")
+      file        = file("eb-rule/submitted-notification-joint.yaml")
     }
-    submitted__notification_vendor = {
+    submitted-notification-vendor = {
       rulename    = "finance.application.submitted__notification.vendor.thankyou"
       description = "Email vendor about application received."
       target      = "arn:aws:sqs:ap-south-1:310124165412:ms-communication-staging.fifo"
       id          = "ms-communication-staging.fifo"
-      file        = file("eb-rule/submitted__notification_vendor.yaml")
+      file        = file("eb-rule/submitted-notification-vendor.yaml")
     }
   }
 
