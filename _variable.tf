@@ -2,6 +2,10 @@ variable "org_name" {
   description = "Name for this organization"
 }
 
+variable "custom_eb_exist" {
+  description = "true|false to custom eventbus exists"
+}
+
 variable "required_custom_bus" {
   default     = false
   description = "true|false to create custom eventbus with access to only owner account"
