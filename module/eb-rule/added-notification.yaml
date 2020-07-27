@@ -1,0 +1,37 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Evenet Bus Rule stack (finance.application.applicant.added__notification.terms.bp.joint)'
+
+Parameters:
+  ConfigurationEBNameParam:
+    Type: String
+  ConfigurationEBRuleNameParam:
+    Type: String
+  DescriptionParam:
+   Type: String
+  EventPatternState:
+    Type: String
+  EventRuleTargetArn:
+    Type: String
+  EventRuleTargetID:
+    Type: String
+
+Resources:
+  EventBusRules:
+    Type: "AWS::Events::Rule"
+    Properties:
+      Description: !Ref DescriptionParam
+      EventBusName: !Ref ConfigurationEBNameParam
+      EventPattern: "{\n  \"detail-type\": [\n    \"finance.application.applicant.added\"\n  ],\n  \"detail\": {\n    \"application\": {\n      \"product\": [\n        \"payment-plan\"\n      ]\n    },\n    \"applicant\": {\n      \"present\": [\n        true\n      ]\n    }\n  }\n}"
+      Name: !Ref ConfigurationEBRuleNameParam
+      State: !Ref EventPatternState
+      Targets: 
+      - 
+        Arn: !Ref EventRuleTargetArn
+        Id: !Ref EventRuleTargetID
+        SqsParameters:
+          MessageGroupId: "notification"
+        InputTransformer:
+          InputPathsMap: 
+            email: "$.detail.applicant.email"
+          InputTemplate: "{\n \"type\": \"http\",\n \"method\": \"POST\",\n \"path\": \"/v1/communications/notifications\",\n \"body\": {\n \"to\": <email>,\n \"templateKey\": \"email_payment_plan_terms_conditions\",\n \"payload\": null\n }\n}"
