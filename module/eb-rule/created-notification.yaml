@@ -1,0 +1,37 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Evenet Bus Rule stack (finance.application.created__notification.terms.bp.primary)'
+
+Parameters:
+  ConfigurationEBNameParam:
+    Type: String
+  ConfigurationEBRuleNameParam:
+    Type: String
+  DescriptionParam:
+   Type: String
+  EventPatternState:
+    Type: String
+  EventRuleTargetArn:
+    Type: String
+  EventRuleTargetID:
+    Type: String
+
+Resources:
+  EventBusRules:
+    Type: "AWS::Events::Rule"
+    Properties:
+      Description: !Ref DescriptionParam
+      EventBusName: !Ref ConfigurationEBNameParam
+      EventPattern: "{\n  \"detail-type\": [\n    \"finance.application.created\"\n  ],\n  \"detail\": {\n    \"product\": [\n      \"payment-plan\"\n    ]\n  }\n}"
+      Name: !Ref ConfigurationEBRuleNameParam
+      State: !Ref EventPatternState
+      Targets: 
+      - 
+        Arn: !Ref EventRuleTargetArn
+        Id: !Ref EventRuleTargetID
+        SqsParameters:
+          MessageGroupId: "notification"
+        InputTransformer:
+          InputPathsMap: 
+            email: "$.detail.applicants[0].email"
+          InputTemplate: "{\n    \"type\": \"http\",\n    \"method\": \"POST\",\n    \"path\": \"/v1/communications/notifications\",\n    \"body\": {\n        \"to\": <email>,\n        \"templateKey\": \"email_payment_plan_terms_conditions\",\n        \"payload\": null\n    },\n    \"variables\": {}\n}"

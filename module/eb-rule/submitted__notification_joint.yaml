@@ -1,0 +1,42 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Evenet Bus Rule stack (finance.application.submitted__notification.joint.applicant)'
+
+Parameters:
+  ConfigurationEBNameParam:
+    Type: String
+  ConfigurationEBRuleNameParam:
+    Type: String
+  DescriptionParam:
+   Type: String
+  EventPatternState:
+    Type: String
+  EventRuleTargetArn:
+    Type: String
+  EventRuleTargetID:
+    Type: String
+
+Resources:
+  EventBusRules:
+    Type: "AWS::Events::Rule"
+    Properties:
+      Description: !Ref DescriptionParam
+      EventBusName: !Ref ConfigurationEBNameParam
+      EventPattern: "{\n  \"detail-type\": [\n    \"finance.application.submitted\"\n  ],\n  \"detail\": {\n    \"product\": [\n      \"payment-plan\"\n    ],\n    \"joint\": [\n      true\n    ],\n    \"needSecondaryApplicantDetails\": [\n      true\n    ]\n  }\n}"
+      Name: !Ref ConfigurationEBRuleNameParam
+      State: !Ref EventPatternState
+      Targets: 
+      - 
+        Arn: !Ref EventRuleTargetArn
+        Id: !Ref EventRuleTargetID
+        SqsParameters:
+          MessageGroupId: "ms-communications"
+        InputTransformer:
+          InputPathsMap: 
+            agentFirstName: "$.detail.agent.firstName"
+            jointApplicationUrl: "$.detail.applicants[1].url"
+            jointConsumerEmail: "$.detail.applicants[1].email"
+            jointConsumerFirstName: "$.detail.applicants[1].firstName"
+            jointConsumerLastName: "$.detail.applicants[1].lastName"
+            vendorTradingName: "$.detail.vendor.tradingName"
+          InputTemplate: "{\n    \"type\": \"http\",\n    \"method\": \"POST\",\n    \"path\": \"/v1/communications/notifications\",\n    \"body\": {\n        \"to\": <jointConsumerEmail>,\n        \"templateKey\": \"email_joint_applicant\",\n        \"payload\": {\n            \"vendor_trading_name\": <vendorTradingName>,\n            \"vendor_agent_first_name\": <agentFirstName>,\n            \"applicant_joint_first_name\": <jointConsumerFirstName>,\n            \"applicant_joint_last_name\": <jointConsumerLastName>,\n            \"applicant_application_url\": <jointApplicationUrl>\n        }\n    }\n}"
