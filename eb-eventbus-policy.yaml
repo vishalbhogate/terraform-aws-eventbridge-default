@@ -17,6 +17,7 @@ Resources:
   
   EventBusPolicy: 
     Type: AWS::Events::EventBusPolicy
+    DependsOn: EventBus
     Properties:
       EventBusName: !Ref ConfigurationEBNameParam
       Action: "events:PutEvents"
