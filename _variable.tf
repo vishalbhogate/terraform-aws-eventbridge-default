@@ -1,4 +1,4 @@
-variable "org_name" {
+variable "bus_name" {
   description = "Name for this organization"
 }
 
