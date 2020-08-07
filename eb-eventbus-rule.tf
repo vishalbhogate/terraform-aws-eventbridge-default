@@ -4,7 +4,7 @@ resource aws_cloudformation_stack eventbus_rule_custom {
   depends_on = [aws_cloudformation_stack.eventbus, aws_cloudformation_stack.eventbus_policy]
   name       = "eb-rules-${var.eventbus_rules[count.index]}"
   parameters = {
-    ConfigurationEBNameParam     = "${var.org_name}"
+    ConfigurationEBNameParam     = "${var.bus_name}"
     ConfigurationEBRuleNameParam = lookup(var.eventbus_event_pattern[var.eventbus_rules[count.index]], "rulename")
     DescriptionParam             = lookup(var.eventbus_event_pattern[var.eventbus_rules[count.index]], "description")
     EventPatternState            = var.eventbus_rule_state
@@ -19,7 +19,7 @@ resource aws_cloudformation_stack eventbus_rule_custom_org {
   depends_on = [aws_cloudformation_stack.eventbus, aws_cloudformation_stack.eventbus_policy]
   name       = "eb-rules-${var.eventbus_rules[count.index]}"
   parameters = {
-    ConfigurationEBNameParam     = "${var.org_name}"
+    ConfigurationEBNameParam     = "${var.bus_name}"
     ConfigurationEBRuleNameParam = lookup(var.eventbus_event_pattern[var.eventbus_rules[count.index]], "rulename")
     DescriptionParam             = lookup(var.eventbus_event_pattern[var.eventbus_rules[count.index]], "description")
     EventPatternState            = var.eventbus_rule_state
@@ -33,7 +33,7 @@ resource aws_cloudformation_stack eventbus_rule_custom_existing {
   count = var.custom_eb_exist ? length(var.eventbus_rules) : 0
   name  = "eb-rules-${var.eventbus_rules[count.index]}"
   parameters = {
-    ConfigurationEBNameParam     = "${var.org_name}"
+    ConfigurationEBNameParam     = "${var.bus_name}"
     ConfigurationEBRuleNameParam = lookup(var.eventbus_event_pattern[var.eventbus_rules[count.index]], "rulename")
     DescriptionParam             = lookup(var.eventbus_event_pattern[var.eventbus_rules[count.index]], "description")
     EventPatternState            = var.eventbus_rule_state
