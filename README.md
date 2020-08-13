@@ -1,4 +1,18 @@
 
+# terraform-aws-eventbridge-default
+
+
+This terraform module creates an eventbridge
+
+Amazon EventBridge is a serverless event bus that makes it easy to connect applications together using data from your own applications, integrated Software-as-a-Service (SaaS) applications, and AWS services. EventBridge delivers a stream of real-time data from event sources, such as Zendesk, Datadog, or Pagerduty, and routes that data to targets like AWS Lambda. You can set up routing rules to determine where to send your data to build application architectures that react in real time to all of your data sources. 
+
+This modules creates:
+
+ - Eventbus policies
+ - Eventbus rules
+
+
+
 Required Inputs
 
 These variables must be set in the module block when using this module.
