@@ -12,3 +12,8 @@ Resources:
     Properties: 
       Name:
         !Ref ConfigurationEBNameParam
+
+Outputs:
+  EventBusArn:
+    Description: EventBus ARN
+    Value: !GetAtt EventBus.Arn
